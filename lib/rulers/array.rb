@@ -1,5 +1,5 @@
 class Array
   def deeply_empty?
-  empty? || all(&:empty?)
+    empty? || all(&:empty?)
   end
 end

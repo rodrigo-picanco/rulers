@@ -1,0 +1,3 @@
+class RequestMalformedException < StandardError
+end
+
