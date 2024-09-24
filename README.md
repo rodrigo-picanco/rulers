@@ -1,39 +1,93 @@
 # Rulers
 
-TODO: Delete this and the text below, and describe your gem
+Rulers is a Ruby web framework implemented as a learning exercise, using the concepts presented in Noah Gibbs's "Rebuilding Rails" book.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rulers`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Description
+
+This project aims to build a lightweight Ruby web framework from scratch, providing insight into the inner workings of popular frameworks like Ruby on Rails. By following along with the development process, you can gain a deeper understanding of web framework architecture and Ruby programming concepts.
+
+## Features
+
+(List the key features of your framework here. For example:)
+- Autoloading
+- Convention over configuration
+- Routing system
+- Controller structure
+- View rendering
+- Basic ORM with SQLite (Object-Relational Mapping)
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add installation instructions here. For example:
 
-Install the gem and add to the application's Gemfile by executing:
-
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```ruby
+gem 'rulers', git: 'https://github.com/rodrigo-picanco/rulers.git'
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
 
-## Development
+# app/models/a_model.rb
+require 'rulers/sqlite_model'
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+class HelloWorldModel< Rulers::Model::SQLite
+end
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
-## Contributing
+#  app/controllers/a_controller.rb
+class HelloWorldController < Rulers::Controller
+  def initialize(env)
+    super(env)
+  end
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rulers. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rulers/blob/master/CODE_OF_CONDUCT.md).
+  attr_reader :foo
 
-## License
+  def index
+    @quotes = AModel.all
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+    render :index
+  end
 
-## Code of Conduct
+  def show
+    @quote = AModel.find(params['id'])
 
-Everyone interacting in the Rulers project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rulers/blob/master/CODE_OF_CONDUCT.md).
+    render :show
+  end
+end
+
+# app/views/hello_world/index.html.erb
+<h1>Hello, World!</h1>
+
+
+# config/application.rb
+module MyApp 
+  class Application < Rulers::Application
+  end
+end
+
+
+# config.ru
+require 'rulers'
+require './config/application'
+
+app = MyApp::Application.new
+
+use Rack::ContentType
+
+app.route do
+  match ':controller/:id/:action'
+  match ':controller/:id', default: { action: 'show' }
+  match ':controller', default: { action: 'index' }
+end
+
+run app
+```
+
+## Acknowledgements
+
+This project was inspired by Noah Gibbs's "Rebuilding Rails" book. While the implementation is original, the concepts and learning approach are based on the book's teachings.
+
+## Disclaimer
+
+This framework is primarily for educational purposes and may not be suitable for production use.
