@@ -1,10 +1,11 @@
 PATH
   remote: .
   specs:
-    rulers (0.0.2)
+    rulers (0.0.5)
       erubis
       multi_json
       rack (~> 2.2)
+      sqlite3
       webrick
 
 GEM
@@ -14,6 +15,7 @@ GEM
     erubis (2.7.0)
     json (2.7.2)
     language_server-protocol (3.17.0.3)
+    mini_portile2 (2.8.7)
     minitest (5.25.1)
     multi_json (1.15.0)
     parallel (1.26.3)
@@ -43,6 +45,9 @@ GEM
     rubocop-ast (1.32.1)
       parser (>= 3.3.1.0)
     ruby-progressbar (1.13.0)
+    sqlite3 (2.0.4)
+      mini_portile2 (~> 2.8.0)
+    sqlite3 (2.0.4-arm64-darwin)
     strscan (3.1.0)
     unicode-display_width (2.5.0)
     webrick (1.8.1)
